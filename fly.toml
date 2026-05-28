@@ -1,45 +1,59 @@
-# fly.toml
-# fly launch 실행 후 app 이름이 자동으로 채워집니다
+# fly.toml app configuration file generated for schedule-bot-chyoang30 on 2026-05-28T14:32:19+09:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "schedule-bot"        # fly launch 시 자동 변경됨
-primary_region = "nrt"      # 도쿄 리전 (한국에서 가장 가까움)
+app = 'schedule-bot-chyoang30'
+primary_region = 'nrt'
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
+
+[deploy]
+  release_command = 'node src/db/migrate.js'
 
 [env]
-  NODE_ENV = "production"
-  PORT     = "3000"
+  NODE_ENV = 'production'
+  PORT = '3000'
 
-# 마이그레이션을 배포 직전에 자동 실행
-[deploy]
-  release_command = "node src/db/migrate.js"
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
 [[services]]
-  protocol    = "tcp"
+  protocol = 'tcp'
   internal_port = 3000
 
   [[services.ports]]
-    port     = 80
-    handlers = ["http"]
+    port = 80
+    handlers = ['http']
 
   [[services.ports]]
-    port     = 443
-    handlers = ["tls", "http"]
+    port = 443
+    handlers = ['tls', 'http']
 
   [services.concurrency]
-    type       = "connections"
+    type = 'connections'
     hard_limit = 25
     soft_limit = 20
 
   [[services.http_checks]]
-    interval       = 10000
-    timeout        = 2000
-    grace_period   = "5s"
-    method         = "GET"
-    path           = "/api/health"
-    protocol       = "http"
+    interval = '10s'
+    timeout = '2s'
+    grace_period = '5s'
+    method = 'GET'
+    path = '/api/health'
+    protocol = 'http'
 
-[metrics]
+[[vm]]
+  memory = '1gb'
+  cpus = 1
+  memory_mb = 1024
+
+[[metrics]]
   port = 9091
-  path = "/metrics"
+  path = '/metrics'
