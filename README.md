@@ -1,6 +1,6 @@
 # 📅 Schedule Bot
 
-<<<<<<< HEAD
+
 > Discord 스터디/모임 일정 조율 봇 + REST API
 
 참여자들의 **가능 시간을 투표로 수집**하고, **최적 시간을 자동 추천**해주는 Discord 봇입니다.
@@ -10,7 +10,6 @@ PostgreSQL 기반 데이터 저장 및 Express REST API를 통해 일정 데이�
 
 참여자들의 **가능 시간을 투표로 수집**하고, **최적 시간을 자동 추천**해주는 Discord 봇입니다.  
 스터디 그룹, 온라인 모임 등 다수의 일정 조율에 활용할 수 있습니다.
->>>>>>> ca4a14a8f0081eb5b24dcf5b679a7997ffaa5738
 
 ---
 
@@ -18,24 +17,23 @@ PostgreSQL 기반 데이터 저장 및 Express REST API를 통해 일정 데이�
 
 | 기능 | 설명 |
 |------|------|
-<<<<<<< HEAD
-| 📊 **가능 시간 투표** | 최대 10개 후보 시간 복수 선택 투표 |
-| 🏆 **최적 시간 추천** | 참가자 수 기준 상위 3개 자동 추천 |
-| ⏰ **리마인더 알림** | 마감 1시간 전 독촉, 마감 후 자동 결과 공지 |
-| 👥 **참가자 관리** | 투표 현황 실시간 업데이트 |
-| ✅ **일정 확정** | 확정 시 참가자 전체 멘션 알림 |
-| 🌐 **REST API** | 일정 조회 / 통계 엔드포인트 제공 |
+
+| **가능 시간 투표** | 최대 10개 후보 시간 복수 선택 투표 |
+| **최적 시간 추천** | 참가자 수 기준 상위 3개 자동 추천 |
+| **리마인더 알림** | 마감 1시간 전 독촉, 마감 후 자동 결과 공지 |
+| **참가자 관리** | 투표 현황 실시간 업데이트 |
+| **일정 확정** | 확정 시 참가자 전체 멘션 알림 |
+| **REST API** | 일정 조회 / 통계 엔드포인트 제공 |
 =======
-| 📊 **가능 시간 투표** | 최대 10개의 후보 시간 중 복수 선택 투표 |
-| 🏆 **최적 시간 추천** | 참가자 수 기준 상위 3개 시간대 자동 추천 |
-| ⏰ **리마인더 알림** | 마감 1시간 전 투표 독촉, 마감 후 자동 결과 공지 |
-| 👥 **참가자 관리** | 투표 현황 실시간 업데이트 및 참가자 목록 표시 |
-| ✅ **일정 확정** | 최적 시간으로 일정 확정 후 참가자 전체 멘션 알림 |
->>>>>>> ca4a14a8f0081eb5b24dcf5b679a7997ffaa5738
+| **가능 시간 투표** | 최대 10개의 후보 시간 중 복수 선택 투표 |
+| **최적 시간 추천** | 참가자 수 기준 상위 3개 시간대 자동 추천 |
+| **리마인더 알림** | 마감 1시간 전 투표 독촉, 마감 후 자동 결과 공지 |
+| **참가자 관리** | 투표 현황 실시간 업데이트 및 참가자 목록 표시 |
+| **일정 확정** | 최적 시간으로 일정 확정 후 참가자 전체 멘션 알림 |
 
 ---
 
-## 🚀 시작하기
+## 시작하기
 
 ### 1. 의존성 설치
 
@@ -49,7 +47,7 @@ npm install
 cp .env.example .env
 ```
 
-<<<<<<< HEAD
+
 ```env
 DISCORD_TOKEN=your_bot_token_here
 CLIENT_ID=your_client_id_here
@@ -80,13 +78,12 @@ GUILD_ID=your_guild_id_here   # 개발 중에만 사용, 배포 시 제거
 > 봇 권한: `applications.commands`, `bot` (Send Messages, Embed Links, Read Message History)
 
 ### 3. 슬래시 커맨드 등록
->>>>>>> ca4a14a8f0081eb5b24dcf5b679a7997ffaa5738
 
 ```bash
 npm run deploy
 ```
 
-<<<<<<< HEAD
+
 ### 5. 봇 실행
 
 ```bash
@@ -97,12 +94,10 @@ npm start
 ```bash
 npm start          # 일반 실행
 npm run dev        # 파일 변경 감지 (Node.js 18+)
->>>>>>> ca4a14a8f0081eb5b24dcf5b679a7997ffaa5738
 ```
 
 ---
 
-<<<<<<< HEAD
 ## 🌐 REST API
 
 모든 요청에 헤더 `x-api-key: {API_KEY}` 필요 (`/api/health` 제외)
@@ -131,8 +126,8 @@ npm run dev        # 파일 변경 감지 (Node.js 18+)
     { "label": "월요일 저녁 8시", "voterCount": 3, "voters": ["111", "222", "333"] }
   ]
 }
-=======
-## 💬 커맨드 목록
+```
+## 커맨드 목록
 
 ```
 /schedule create          새 일정 조율 시작 (모달 입력)
@@ -150,7 +145,6 @@ npm run dev        # 파일 변경 감지 (Node.js 18+)
 ```
 schedule-bot/
 ├── src/
-<<<<<<< HEAD
 │   ├── api/
 │   │   ├── routes.js          # REST API 라우터
 │   │   └── server.js          # Express 앱
@@ -169,7 +163,6 @@ schedule-bot/
 │   └── index.js
 ├── Dockerfile
 ├── fly.toml
-=======
 │   ├── commands/
 │   │   └── schedule.js        # 슬래시 커맨드 정의
 │   ├── events/
@@ -183,22 +176,20 @@ schedule-bot/
 ├── data/
 │   └── schedules.json         # (자동 생성) 일정 데이터
 ├── .env.example
->>>>>>> ca4a14a8f0081eb5b24dcf5b679a7997ffaa5738
 └── package.json
 ```
 
 ---
 
-## 🛠️ 기술 스택
-
-<<<<<<< HEAD
+## 기술 스택
+```
 - **Runtime**: Node.js 20
 - **Discord API**: discord.js v14
 - **Web Framework**: Express v4
 - **Database**: PostgreSQL (pg 드라이버)
 - **스케줄러**: node-cron
 - **배포**: Fly.io + Docker
-
+```
 ---
 
 ## ☁️ Fly.io 배포
@@ -228,7 +219,6 @@ fly deploy
 
 이후 `git push` 후 `fly deploy` 만으로 재배포됩니다.
 
-=======
 - **Runtime**: Node.js 18+
 - **Discord API**: discord.js v14
 - **스케줄러**: node-cron
@@ -257,4 +247,3 @@ fly deploy
 3. 마감 1시간 전 자동 알림 발송
 4. 마감 후 결과 자동 공지 + 주최자가 `/schedule confirm` 으로 확정
 5. 참가자 전체 멘션으로 확정 알림 발송
->>>>>>> ca4a14a8f0081eb5b24dcf5b679a7997ffaa5738
