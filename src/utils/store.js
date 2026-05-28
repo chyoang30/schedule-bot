@@ -1,12 +1,8 @@
-
 import pool from '../db/pool.js';
-
-// ─── 내부 헬퍼: DB row → 앱에서 쓰는 schedule 객체 ───────────────────────────
 
 async function rowToSchedule(row) {
   if (!row) return null;
 
-  // 투표 데이터 JOIN
   const { rows: voteRows } = await pool.query(
     'SELECT user_id, slot_indices FROM votes WHERE schedule_id = $1',
     [row.id]
@@ -34,8 +30,6 @@ async function rowToSchedule(row) {
     availability,
   };
 }
-
-// ─── Public API ───────────────────────────────────────────────────────────────
 
 export async function getSchedule(scheduleId) {
   const { rows } = await pool.query('SELECT * FROM schedules WHERE id = $1', [scheduleId]);
@@ -67,7 +61,6 @@ export async function saveSchedule(schedule) {
     warnedDeadline, closedAnnounced, availability,
   } = schedule;
 
-  // UPSERT schedules
   await pool.query(
     `INSERT INTO schedules
        (id, guild_id, channel_id, creator_id, title, slots, min_participants,
@@ -87,7 +80,6 @@ export async function saveSchedule(schedule) {
      warnedDeadline ?? false, closedAnnounced ?? false]
   );
 
-  // 투표 UPSERT (availability)
   if (availability) {
     for (const [userId, slotIndices] of Object.entries(availability)) {
       await pool.query(
@@ -103,52 +95,5 @@ export async function saveSchedule(schedule) {
 }
 
 export async function deleteSchedule(scheduleId) {
-  // votes는 ON DELETE CASCADE로 자동 삭제
   await pool.query('DELETE FROM schedules WHERE id = $1', [scheduleId]);
-
-import { readFileSync, writeFileSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const DATA_PATH = join(__dirname, '../../data/schedules.json');
-
-function load() {
-  if (!existsSync(DATA_PATH)) return {};
-  try {
-    return JSON.parse(readFileSync(DATA_PATH, 'utf8'));
-  } catch {
-    return {};
-  }
-}
-
-function save(data) {
-  writeFileSync(DATA_PATH, JSON.stringify(data, null, 2), 'utf8');
-}
-
-export function getSchedule(scheduleId) {
-  const db = load();
-  return db[scheduleId] ?? null;
-}
-
-export function getAllSchedules() {
-  return load();
-}
-
-export function saveSchedule(schedule) {
-  const db = load();
-  db[schedule.id] = schedule;
-  save(db);
-}
-
-export function deleteSchedule(scheduleId) {
-  const db = load();
-  delete db[scheduleId];
-  save(db);
-}
-
-export function getGuildSchedules(guildId) {
-  const db = load();
-  return Object.values(db).filter(s => s.guildId === guildId);
-}
 }
