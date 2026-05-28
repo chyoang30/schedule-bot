@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import pool from '../db/pool.js';
 
 // ─── 내부 헬퍼: DB row → 앱에서 쓰는 schedule 객체 ───────────────────────────
@@ -105,7 +105,7 @@ export async function saveSchedule(schedule) {
 export async function deleteSchedule(scheduleId) {
   // votes는 ON DELETE CASCADE로 자동 삭제
   await pool.query('DELETE FROM schedules WHERE id = $1', [scheduleId]);
-=======
+
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -150,5 +150,5 @@ export function deleteSchedule(scheduleId) {
 export function getGuildSchedules(guildId) {
   const db = load();
   return Object.values(db).filter(s => s.guildId === guildId);
->>>>>>> ca4a14a8f0081eb5b24dcf5b679a7997ffaa5738
+}
 }
