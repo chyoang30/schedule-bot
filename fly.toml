@@ -1,0 +1,45 @@
+# fly.toml
+# fly launch 실행 후 app 이름이 자동으로 채워집니다
+
+app = "schedule-bot"        # fly launch 시 자동 변경됨
+primary_region = "nrt"      # 도쿄 리전 (한국에서 가장 가까움)
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  PORT     = "3000"
+
+# 마이그레이션을 배포 직전에 자동 실행
+[deploy]
+  release_command = "node src/db/migrate.js"
+
+[[services]]
+  protocol    = "tcp"
+  internal_port = 3000
+
+  [[services.ports]]
+    port     = 80
+    handlers = ["http"]
+
+  [[services.ports]]
+    port     = 443
+    handlers = ["tls", "http"]
+
+  [services.concurrency]
+    type       = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.http_checks]]
+    interval       = 10000
+    timeout        = 2000
+    grace_period   = "5s"
+    method         = "GET"
+    path           = "/api/health"
+    protocol       = "http"
+
+[metrics]
+  port = 9091
+  path = "/metrics"
